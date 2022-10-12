@@ -39,6 +39,7 @@
 --  to application when the transfer of a chunk is complete.
 
 limited with ALSA.PCM.Hardware_Parameters;
+limited with ALSA.PCM.Statuses;
 
 private with Ada.Finalization;
 private with Interfaces.C;
@@ -47,7 +48,6 @@ with System;
 private with ALSA.pcm_h;
 
 package ALSA.PCM is
-   pragma Preelaborate;
 
    type Device is tagged limited private;
 
@@ -100,6 +100,9 @@ package ALSA.PCM is
    procedure Start (Self : in out Device)
      with Pre => Self.Is_Open;
    --  Start a PCM.
+
+   function Status (Self : Device) return ALSA.PCM.Statuses.Status;
+   --  Obtain status (runtime) information for PCM handle.
 
    procedure Read_Interleaved
      (Self   : in out Device;

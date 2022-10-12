@@ -5,6 +5,7 @@
 
 with ALSA.error_h;
 with ALSA.PCM.Hardware_Parameters;
+with ALSA.PCM.Statuses;
 
 with Interfaces.C.Strings;
 
@@ -167,6 +168,25 @@ package body ALSA.PCM is
    begin
       Check (err);
    end Start;
+
+   ------------
+   -- Status --
+   ------------
+
+   function Status (Self : Device) return ALSA.PCM.Statuses.Status is
+      Result : aliased ALSA.PCM.Statuses.Status;
+
+      Raw    : aliased pcm_h.snd_pcm_status_t
+        with Import, Address => Result'Address;
+
+      err : constant Interfaces.C.int :=
+        pcm_h.snd_pcm_status
+          (Self.pcm, Raw'Unchecked_Access);
+   begin
+      Check (err);
+
+      return Result;
+   end Status;
 
    -----------------------
    -- Write_Interleaved --

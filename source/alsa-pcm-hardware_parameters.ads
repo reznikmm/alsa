@@ -8,7 +8,6 @@ private with Ada.Streams;
 with ALSA.Sample_Formats;
 
 package ALSA.PCM.Hardware_Parameters is
-   pragma Preelaborate;
 
    type Hardware_Configuration is private;
 
